@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getInstitucionesSalud, getInstitucionesSaludxid, postInstitucionSalud, putInstitucionSalud, patchInstitucionSalud, deleteInstitucionSaludxid } from "../controladores/institucionSalud.js";
+import { getInstitucionesSalud, getInstitucionesSaludxid, postInstitucionSalud, putInstitucionSalud, patchInstitucionSalud, deleteInstitucionSaludxid } from "../controladores/institucionSaludC.js";
 
 
 
