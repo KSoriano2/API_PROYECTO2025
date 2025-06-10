@@ -1,0 +1,20 @@
+<ion-menu side="start" menuId="primerMenu" contentId="principal">
+  <ion-header>
+    <ion-toolbar color="light">
+      <ion-title>OPERACIONES</ion-title>
+    </ion-toolbar>
+
+  </ion-header>
+
+  <ion-content>
+    <ion-list color="primary">
+    <ion-menu-toggle *ngFor="let item of listaOptMenus">   
+          <!--  <ion-item (click)="grabar(item)">-->
+           <ion-item (click)="ir(item.ACC_PAGINA)" > 
+          
+           <ion-label>{{item.ACC_NOMBRE}}</ion-label>
+          </ion-item>
+    </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>

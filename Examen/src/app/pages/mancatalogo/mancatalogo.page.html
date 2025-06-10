@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Detalle</ion-title>
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back" (click)="Retornar()">     
+      </ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <ion-slides class="slide-full" [options]="sliderConfig">
+      <ion-slide *ngFor="let slide of listaimagenes">
+        <ion-card >
+         <img [src]="url+slide.IMG_FOTO" class="slide-image">
+        </ion-card>
+      </ion-slide>
+    
+    </ion-slides>
+  </div>
+  <ion-grid style="background:#3f3f44">
+
+
+
+    <ion-item class="ion-text-center">
+      <ion-text  ><b>Tallas Disponibles</b></ion-text>
+    </ion-item>
+   
+    <ion-item *ngFor="let item of listaTallas">
+      
+      <ion-label>TALLA: {{item.TA_TALLA}}</ion-label>
+      <ion-checkbox 
+          slot="start" [(ngModel)]="item.estado" color="primary"
+       ></ion-checkbox>
+       <ion-label>DISPONIBLE: {{item.TA_STOCK}}</ion-label>
+    </ion-item>
+
+  </ion-grid> 
+
+</ion-content>

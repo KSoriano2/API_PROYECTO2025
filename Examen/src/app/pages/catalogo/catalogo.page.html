@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-title>Productos</ion-title>
+      <ion-buttons slot="start">
+        <ion-icon name="arrow-back" (click)="Retornar()">     
+        </ion-icon>
+      </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <div>
+    <ion-searchbar placeholder="Filter Schedules"></ion-searchbar>
+  </div>
+  <ion-grid>
+    <ion-card  *ngFor="let item of productos" (click)="detalle(item)">
+      <img  class="img-avatar" [src]="url+item.PRO_FOTO">
+      <ion-grid style="background:#3f3f44" >
+        <ion-row>
+          <ion-col>     
+            <ion-text color="primary"><h4><b>NOMBRE:</b></h4></ion-text>
+            <ion-text color="light"><h5 class="ion-text-center"><b>{{item.PRO_NOMBRE}}</b></h5> </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-text color="primary"><h4><b>DESCRIPCION:</b></h4></ion-text>
+            <ion-text color="light"><h3 class="ion-text-center"><b>{{item.PRO_DESCRIPCION}}</b></h3></ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col >
+            <ion-text color="primary"><h4><b>PRECIO:</b></h4></ion-text>
+            <ion-text color="light"> <h1  class="ion-text-center"><b>${{item.PRO_PRECIO}}</b></h1></ion-text>
+          </ion-col>
+        </ion-row>
+    
+      </ion-grid>
+    </ion-card>
+  </ion-grid>
+
+</ion-content>

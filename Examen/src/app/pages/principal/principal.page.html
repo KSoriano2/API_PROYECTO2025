@@ -1,0 +1,23 @@
+<app-menu></app-menu>
+<ion-router-outlet id="principal"></ion-router-outlet>
+<ion-header mode="ios">
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">{{Usr_nombres}}</ion-title>
+     
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" menu="primerMenu"></ion-menu-button>
+    </ion-buttons>
+    
+    <ion-buttons slot="end">
+      <ion-icon class="control" name="log-out" (click)="salir()">SALIR</ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+</ion-content>
+<ion-footer class="myColor" mode="ios">
+  <ion-label>UPSE-2021</ion-label>
+</ion-footer>
