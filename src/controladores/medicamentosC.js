@@ -6,7 +6,7 @@ export const obtenerMedicamentos = (req, resp)=>{
 
 export const getMedicamentos=async(req, resp)=>{
 try{
-    const [result] = await conmysql.query(' select * MEDICAMENTOS ')
+    const [result] = await conmysql.query(' select * from MEDICAMENTOS where ESTADO_MEDICAMENTO="A" ')
     resp.json({ cant: result.length, data: result }) 
 }catch(error){
     return resp.status(500).json({ message: "error en el servidor"})
