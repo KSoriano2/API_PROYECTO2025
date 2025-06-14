@@ -1,8 +1,23 @@
 import { Router } from "express";
 import { getMedicos, getMedicosxid, postMedicos, putMedicos, patchMedicos, deleteMedicosxid } from "../controladores/medicosC.js";
-
+import multer from "multer";
 
 const router = Router();
+
+const storage = multer.diskStorage({
+destination: (req, file, cb)=>{
+    cb(null, 'uploads'); //carpeta donde se guardan las imagenes
+},
+filename:(req, file, cb)=>{
+    cb(null, `${Date.now()}-${file.originalname}`);
+}
+})
+
+
+const upload = multer({storage});
+
+
+
 
 router.get('/medicos', getMedicos);
 router.get('/medicos/:id', getMedicosxid);

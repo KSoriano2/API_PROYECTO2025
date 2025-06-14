@@ -1,9 +1,23 @@
 import { Router } from "express";
 import { getInstitucionesSalud, getInstitucionesSaludxid, postInstitucionSalud, putInstitucionSalud, patchInstitucionSalud, deleteInstitucionSaludxid } from "../controladores/institucionSaludC.js";
-
+import multer from "multer";
 
 
 const router = Router();
+
+const storage = multer.diskStorage({
+destination: (req, file, cb)=>{
+    cb(null, 'uploads'); //carpeta donde se guardan las imagenes
+},
+filename:(req, file, cb)=>{
+    cb(null, `${Date.now()}-${file.originalname}`);
+}
+})
+
+
+const upload = multer({storage});
+
+
 
 //armar las rutas "URL";
 router.get('/institucion_salud', getInstitucionesSalud),
