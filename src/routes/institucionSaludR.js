@@ -20,11 +20,11 @@ const upload = multer({storage});
 
 
 //armar las rutas "URL";
-router.get('/institucionsalud', getInstitucionesSalud),
-router.get('/institucionsalud/:id', getInstitucionesSaludxid)
-router.post('/institucionsalud', upload.single('imagen_institucion'),postInstitucionSalud)
-router.put('/institucionsalud/:id', upload.single('imagen_institucion'),putInstitucionSalud)
-router.patch('/institucionsalud/:id', upload.single('imagen_institucion'),patchInstitucionSalud)
-router.delete('/institucionsalud/:id', deleteInstitucionSaludxid)
+router.get('/institucion_salud', getInstitucionesSalud),
+router.get('/institucion_salud/:id', getInstitucionesSaludxid)
+router.post('/institucion_salud', upload.single('imagen_institucion'),postInstitucionSalud)
+router.put('/institucion_salud/:id', upload.single('imagen_institucion'),putInstitucionSalud)
+router.patch('/institucion_salud/:id', upload.single('imagen_institucion'),patchInstitucionSalud)
+router.delete('/institucion_salud/:id', deleteInstitucionSaludxid)
 
 export default router;
