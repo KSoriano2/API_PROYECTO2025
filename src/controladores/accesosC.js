@@ -1,6 +1,4 @@
-
-
-//Métodos para Accesos
+import {conmysql} from "../bd.js";
 
 export const obtenerAccesos = (req, resp)=>{
     resp.send('Lista de Instituciones Especialidad')
