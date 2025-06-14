@@ -57,7 +57,7 @@ export const putCitas=async(req,res)=>{
         
         const [result] = await conmysql.query(
             'UPDATE CITAS SET ID_PACIENTE=?, ID_MEDICO=?, ID_INSTITUCION_SALUD=?, FECHA_CITA=?,ESTADO_CITA=? WHERE ID_CITA=?',
-            [id_paciente, id_medico, id_institucion_salud, fecha_cita, estado_cita, ,id])
+            [id_paciente, id_medico, id_institucion_salud, fecha_cita, estado_cita,id])
 
             if(result.affectedRows<=0) return res.status(404).json({
                 message: "Cita no encontrada"

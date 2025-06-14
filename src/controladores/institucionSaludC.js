@@ -38,8 +38,9 @@ export const postInstitucionSalud = async(req, res)=>{
     try{
         const estado_institucion = "A"
         const {nombre_institucion_salud,celular_institucion,correo_institucion,ubicacion_institucion} =req.body
-        const [result] = await conmysql.query(' INSERT INTO INSTITUCION_SALUD (NOMBRE_INSTITUCION_SALUD,CELULAR_INSTITUCION,CORREO_INSTITUCION,UBICACION_INSTITUCION,ESTADO_INSTITUCION) VALUES(?,?,?,?,?)', 
-        [nombre_institucion_salud,celular_institucion,correo_institucion,ubicacion_institucion,estado_institucion])
+        const imagen_institucion = req.file ? `/uploads/${req.file.filename}`: null;
+        const [result] = await conmysql.query(' INSERT INTO INSTITUCION_SALUD (NOMBRE_INSTITUCION_SALUD,CELULAR_INSTITUCION,CORREO_INSTITUCION,UBICACION_INSTITUCION,IMAGEN_INSTITUCION,ESTADO_INSTITUCION) VALUES(?,?,?,?,?,?)', 
+        [nombre_institucion_salud,celular_institucion,correo_institucion,ubicacion_institucion,imagen_institucion,estado_institucion])
         
         res.send({
             id_institucion_salud: result.insertId
@@ -54,10 +55,10 @@ export const putInstitucionSalud=async(req,res)=>{
     try{
         const {id} = req.params
         const {nombre_institucion_salud,celular_institucion,correo_institucion,ubicacion_institucion,estado_institucion}=req.body
-        
+        const imagen_institucion = req.file ? `/uploads/${req.file.filename}`: null;
         const [result] = await conmysql.query(
-            'UPDATE USUARIOS SET NOMBRE_INSTITUCION_SALUD=?,CELULAR_INSTITUCION=?,CORREO_INSTITUCION=?,UBICACION_INSTITUCION=?,ESTADO_INSTITUCION=? WHERE ID_INSTITUCION_SALUD=?',
-            [nombre_institucion_salud,celular_institucion,correo_institucion,ubicacion_institucion,estado_institucion,id])
+            'UPDATE USUARIOS SET NOMBRE_INSTITUCION_SALUD=?,CELULAR_INSTITUCION=?,CORREO_INSTITUCION=?,UBICACION_INSTITUCION=?,IMAGEN_INSTITUCION=?,ESTADO_INSTITUCION=? WHERE ID_INSTITUCION_SALUD=?',
+            [nombre_institucion_salud,celular_institucion,correo_institucion,ubicacion_institucion,imagen_institucion,estado_institucion,id])
 
             if(result.affectedRows<=0) return res.status(404).json({
                 message: "Institucion de Salud no encontrada"
@@ -78,10 +79,10 @@ export const patchInstitucionSalud=async(req,res)=>{
     try{
         const {id} = req.params
         const {nombre_institucion_salud,celular_institucion,correo_institucion,ubicacion_institucion,estado_institucion}=req.body
-        
+        const imagen_institucion = req.file ? `/uploads/${req.file.filename}`: null;
         const [result] = await conmysql.query(
-            'UPDATE INSTITUCION_SALUD SET NOMBRE_INSTITUCION_SALUD=IFNULL(?, NOMBRE_INSTITUCION_SALUD),CELULAR_INSTITUCION=IFNULL(?, CELULAR_INSTITUCION),CORREO_INSTITUCION=IFNULL(?, CORREO_INSTITUCION),UBICACION_INSTITUCION=(?,UBICACION_INSTITUCION),ESTADO_INSTITUCION=IFNULL(?, ESTADO_INSTITUCION) WHERE ID_INSTITUCION_SALUD=?',
-            [nombre_institucion_salud,celular_institucion,correo_institucion,ubicacion_institucion,estado_institucion, id])
+            'UPDATE INSTITUCION_SALUD SET NOMBRE_INSTITUCION_SALUD=IFNULL(?, NOMBRE_INSTITUCION_SALUD),CELULAR_INSTITUCION=IFNULL(?, CELULAR_INSTITUCION),CORREO_INSTITUCION=IFNULL(?, CORREO_INSTITUCION),UBICACION_INSTITUCION=(?,UBICACION_INSTITUCION),IMAGEN_INSTITUCION=IFNULL(?, IMAGEN_INSTITUCION),ESTADO_INSTITUCION=IFNULL(?, ESTADO_INSTITUCION) WHERE ID_INSTITUCION_SALUD=?',
+            [nombre_institucion_salud,celular_institucion,correo_institucion,ubicacion_institucion,imagen_institucion,estado_institucion, id])
 
             if(result.affectedRows<=0) return res.status(404).json({
                 message: "Institucion de Salud no encontrada"

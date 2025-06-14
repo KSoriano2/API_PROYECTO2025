@@ -22,6 +22,9 @@ import medicosRoutes from './routes/medicosR.js'
 import perfilRoutes from './routes/perfilR.js'
 import recetasMedicasRoutes from './routes/recetasMedicasR.js'
 import recetaMedicamentoRoutes from './routes/recetaMedicamentoR.js'
+import horariosMedicoRoutes from './routes/horariosmedicoR.js'
+
+
 
 //definir los módulos de entrada
 const __filename = fileURLToPath(import.meta.url);
@@ -60,7 +63,7 @@ app.use('/api', perfilRoutes)
 app.use('/api', recetasMedicasRoutes)
 app.use('/api', recetaMedicamentoRoutes)
 app.use('/api', usuariosRoutes)
-
+app.use('/api', horariosMedicoRoutes)
 
 
 

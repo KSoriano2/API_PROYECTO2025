@@ -37,9 +37,10 @@ export const getMedicosxid = async(req, res)=>{
 export const postMedicos = async(req, res)=>{
     try{
         const estado_medico = "A"
-        const {nombre_medico,cedula_medico,especialidad_medico,telefono_medico,correo_medico,id_consultorio,id_usuario} =req.body
-        const [result] = await conmysql.query(' INSERT INTO MEDICOS (NOMBRE_MEDICO,CEDULA_MEDICO,ESPECIALIDAD_MEDICO,TELEFONO_MEDICO,CORREO_MEDICO,ESTADO_MEDICO,ID_CONSULTORIO,ID_USUARIO) VALUES(?,?,?,?,?,?,?,?)', 
-        [nombre_medico,cedula_medico,especialidad_medico,telefono_medico,correo_medico,estado_medico,id_consultorio,id_usuario])
+        const {nombre_medico,cedula_medico,especialidad_medico,telefono_medico,correo_medico,id_consultorio,id_usuario, id_inst_esp} =req.body
+        const imagen_medico = req.file ? `/uploads/${req.file.filename}`: null;
+        const [result] = await conmysql.query(' INSERT INTO MEDICOS (NOMBRE_MEDICO,CEDULA_MEDICO,ESPECIALIDAD_MEDICO,TELEFONO_MEDICO,CORREO_MEDICO,ESTADO_MEDICO,IMAGEN_MEDICO,ID_CONSULTORIO,ID_USUARIO,ID_INST_ESP) VALUES(?,?,?,?,?,?,?,?,?,?)', 
+        [nombre_medico,cedula_medico,especialidad_medico,telefono_medico,correo_medico,estado_medico,imagen_medico,id_consultorio,id_usuario,id_inst_esp ])
         
         res.send({
             id_medico: result.insertId
@@ -53,11 +54,11 @@ export const postMedicos = async(req, res)=>{
 export const putMedicos=async(req,res)=>{
     try{
         const {id} = req.params
-        const {nombre_medico,cedula_medico,especialidad_medico,telefono_medico,correo_medico,estado_medico,id_consultorio,id_usuario}=req.body
-        
+        const {nombre_medico,cedula_medico,especialidad_medico,telefono_medico,correo_medico,estado_medico,id_consultorio,id_usuario, id_inst_esp}=req.body
+        const imagen_medico = req.file ? `/uploads/${req.file.filename}`: null;
         const [result] = await conmysql.query(
-            'UPDATE MEDICOS SET NOMBRE_MEDICO=?,CEDULA_MEDICO=?,ESPECIALIDAD_MEDICO=?,TELEFONO_MEDICO=?,CORREO_MEDICO=?,ESTADO_MEDICO=?,ID_CONSULTORIO=?,ID_USUARIO=? WHERE ID_MEDICO=?',
-            [nombre_medico,cedula_medico,especialidad_medico,telefono_medico,correo_medico,estado_medico,id_consultorio,id_usuario,id])
+            'UPDATE MEDICOS SET NOMBRE_MEDICO=?,CEDULA_MEDICO=?,ESPECIALIDAD_MEDICO=?,TELEFONO_MEDICO=?,CORREO_MEDICO=?,ESTADO_MEDICO=?,IMAGEN_MEDICO=?,ID_CONSULTORIO=?,ID_USUARIO=?, ID_INST_ESP=? WHERE ID_MEDICO=?',
+            [nombre_medico,cedula_medico,especialidad_medico,telefono_medico,correo_medico,estado_medico,imagen_medico,id_consultorio,id_usuario,id_inst_esp,id])
 
             if(result.affectedRows<=0) return res.status(404).json({
                 message: "Médico no encontrado"
@@ -77,11 +78,11 @@ export const putMedicos=async(req,res)=>{
 export const patchMedicos=async(req,res)=>{
     try{
         const {id} = req.params
-        const {nombre_medico,cedula_medico,especialidad_medico,telefono_medico,correo_medico,estado_medico,id_consultorio,id_usuario}=req.body
-        
+        const {nombre_medico,cedula_medico,especialidad_medico,telefono_medico,correo_medico,estado_medico,id_consultorio,id_usuario,id_inst_esp}=req.body
+        const imagen_medico = req.file ? `/uploads/${req.file.filename}`: null;        
         const [result] = await conmysql.query(
-            'UPDATE INSTITUCION_SALUD SET NOMBRE_MEDICO=IFNULL(?, NOMBRE_MEDICO),CEDULA_MEDICO=IFNULL(?, CEDULA_MEDICO),ESPECIALIDAD_MEDICO=(?, ESPECIALIDAD_MEDICO),TELEFONO_MEDICO=(?, TELEFONO_MEDICO),CORREO_MEDICO=IFNULL(?, CORREO_MEDICO),ESTADO_MEDICO=IFNULL(ESTADO_MEDICO),ID_CONSULTORIO=IFNULL(?, ID_CONSULTORIO),ID_USUARIO=IFNULL(?, ID_USUARIO) WHERE ID_MEDICO=?',
-            [nombre_medico,cedula_medico,especialidad_medico,telefono_medico,correo_medico,estado_medico,id_consultorio,id_usuario, id])
+            'UPDATE INSTITUCION_SALUD SET NOMBRE_MEDICO=IFNULL(?, NOMBRE_MEDICO),CEDULA_MEDICO=IFNULL(?, CEDULA_MEDICO),ESPECIALIDAD_MEDICO=(?, ESPECIALIDAD_MEDICO),TELEFONO_MEDICO=(?, TELEFONO_MEDICO),CORREO_MEDICO=IFNULL(?, CORREO_MEDICO),ESTADO_MEDICO=IFNULL(ESTADO_MEDICO),IMAGEN_MEDICO=IFNULL(?, IMAGEN_MEDICO),ID_CONSULTORIO=IFNULL(?, ID_CONSULTORIO),ID_USUARIO=IFNULL(?, ID_USUARIO), ID_INST_ESP=IFNULL(?, ID_INST_ESP) WHERE ID_MEDICO=?',
+            [nombre_medico,cedula_medico,especialidad_medico,telefono_medico,correo_medico,estado_medico,imagen_medico,id_consultorio,id_usuario,id_inst_esp, id])
 
             if(result.affectedRows<=0) return res.status(404).json({
                 message: "Médico no encontrado"

@@ -6,8 +6,8 @@ const router = Router();
 
 router.get('/medicamentos', getMedicamentos);
 router.get('/medicamentos/:id', getMedicamentosxid);
-router.post('/medicamentos', postMedicamentos);
-router.put('/medicamentos', putMedicamentos);
-router.patch('/medicamentos/:id', patchMedicamentos);
+router.post('/medicamentos', upload.single('imagen_medicamento'),postMedicamentos);
+router.put('/medicamentos', upload.single('imagen_medicamento'), putMedicamentos);
+router.patch('/medicamentos/:id',upload.single('imagen_medicamento'), patchMedicamentos);
 router.delete('/medicamentos/:id',deleteMedicamentosxid)
 export default router; 

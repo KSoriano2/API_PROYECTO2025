@@ -38,8 +38,9 @@ export const postMedicamentos = async(req, res)=>{
     try{
         const estado_medicamento = "A"
         const {nombre_medicamento,descripcion_medicamento,categoria_medicamento} =req.body
-        const [result] = await conmysql.query(' INSERT INTO MEDICAMENTOS (NOMBRE_MEDICAMENTO,DESCRIPCION_MEDICAMENTO,CATEGORIA_MEDICAMENTO,ESTADO_MEDICAMENTO) VALUES(?,?,?,?)', 
-        [nombre_medicamento,descripcion_medicamento,categoria_medicamento,estado_medicamento])
+        const imagen_medicamento = req.file ? `/uploads/${req.file.filename}`: null;
+        const [result] = await conmysql.query(' INSERT INTO MEDICAMENTOS (NOMBRE_MEDICAMENTO,DESCRIPCION_MEDICAMENTO,CATEGORIA_MEDICAMENTO,IMAGEN_MEDICAMENTO,ESTADO_MEDICAMENTO) VALUES(?,?,?,?,?)', 
+        [nombre_medicamento,descripcion_medicamento,categoria_medicamento,estado_medicamento,imagen_medicamento])
         
         res.send({
             id_institucion_salud: result.insertId
@@ -54,10 +55,10 @@ export const putMedicamentos=async(req,res)=>{
     try{
         const {id} = req.params
         const {nombre_medicamento,descripcion_medicamento,categoria_medicamento,estado_medicamento}=req.body
-        
+        const imagen_medicamento = req.file ? `/uploads/${req.file.filename}`: null;
         const [result] = await conmysql.query(
-            'UPDATE MEDICAMENTOS SET NOMBRE_MEDICAMENTO=?,DESCRIPCION_MEDICAMENTO=?,CATEGORIA_MEDICAMENTO=?,ESTADO_MEDICAMENTO=? WHERE ID_MEDICAMENTO=?',
-            [nombre_medicamento,descripcion_medicamento,categoria_medicamento,estado_medicamento,id])
+            'UPDATE MEDICAMENTOS SET NOMBRE_MEDICAMENTO=?,DESCRIPCION_MEDICAMENTO=?,CATEGORIA_MEDICAMENTO=?,IMAGEN_MEDICAMENTO=?,ESTADO_MEDICAMENTO=? WHERE ID_MEDICAMENTO=?',
+            [nombre_medicamento,descripcion_medicamento,categoria_medicamento,imagen_medicamento,estado_medicamento,id])
 
             if(result.affectedRows<=0) return res.status(404).json({
                 message: "Medicamento no encontrado"
@@ -78,10 +79,10 @@ export const patchMedicamentos=async(req,res)=>{
     try{
         const {id} = req.params
         const {nombre_medicamento,descripcion_medicamento,categoria_medicamento,estado_medicamento}=req.body
-        
+        const imagen_medicamento = req.file ? `/uploads/${req.file.filename}`: null;
         const [result] = await conmysql.query(
-            'UPDATE MEDICAMENTOS SET NOMBRE_MEDICAMENTO=IFNULL(?, NOMBRE_MEDICAMENTO),DESCRIPCION_MEDICAMENTO=IFNULL(?, DESCRIPCION_MEDICAMENTO),CATEGORIA_MEDICAMENTO=IFNULL(?, CATEGORIA_MEDICAMENTO),ESTADO_MEDICAMENTO=IFNULL(?, ESTADO_MEDICAMENTO) WHERE ID_MEDICAMENTO=?',
-            [nombre_medicamento,descripcion_medicamento,categoria_medicamento,estado_medicamento, id])
+            'UPDATE MEDICAMENTOS SET NOMBRE_MEDICAMENTO=IFNULL(?, NOMBRE_MEDICAMENTO),DESCRIPCION_MEDICAMENTO=IFNULL(?, DESCRIPCION_MEDICAMENTO),CATEGORIA_MEDICAMENTO=IFNULL(?, CATEGORIA_MEDICAMENTO),IMAGEN_MEDICAMENTO=IFNULL(?, IMAGEN_MEDICAMENTO),ESTADO_MEDICAMENTO=IFNULL(?, ESTADO_MEDICAMENTO) WHERE ID_MEDICAMENTO=?',
+            [nombre_medicamento,descripcion_medicamento,categoria_medicamento,imagen_medicamento,estado_medicamento, id])
 
             if(result.affectedRows<=0) return res.status(404).json({
                 message: "Medicamento no encontrado"
