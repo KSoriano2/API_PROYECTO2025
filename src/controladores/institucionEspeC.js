@@ -6,7 +6,7 @@ export const obtenerInstitucionEspe = (req, resp)=>{
 
 export const getInstitucionEspe=async(req, resp)=>{
 try{
-    const [result] = await conmysql.query(' select * from INSTITUCION_ESPECIALIDAD where ID_ESPECIALIDAD=? ', [req.params.id])
+    const [result] = await conmysql.query(' select * from INSTITUCION_ESPECIALIDAD ', [req.params.id])
     resp.json({ cant: result.length, data: result }) 
 }catch(error){
     return resp.status(500).json({ message: "error en el servidor"})
