@@ -98,6 +98,24 @@ export const patchCitas=async(req,res)=>{
     }
 }
 
+export const getCitasOcupadas = async (req, res) => {
+  const { idMedico, fecha } = req.params;
+
+  try {
+    const [result] = await conmysql.query(`
+      SELECT DATE_FORMAT(FECHA_CITA, '%H:%i:00') AS HORA_CITA
+      FROM HISTORIAL_CITAS
+      WHERE ID_MEDICO = ? AND DATE(FECHA_CITA) = ?
+    `, [idMedico, fecha]);
+
+    const horas = result.map(row => row.HORA_CITA);
+    res.json({ ocupadas: horas });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ mensaje: 'Error al obtener citas ocupadas' });
+  }
+}
+
 //función eliminar
 export const deleteCitasxid = async(req, res)=>{
     try{
