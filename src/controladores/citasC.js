@@ -7,7 +7,7 @@ export const obtenerCitas = (req, resp)=>{
 export const getCitas=async(req, resp)=>{
 try{
     const {id_paciente}=req.body;
-    const [result] = await conmysql.query(' select * from CITAS where ID_PACIENTE=?', [id_paciente])
+    const [result] = await conmysql.query(' select * from CITAS where ID_PACIENTE=? AND ESTADO_CITA != "I" ', [id_paciente])
     resp.json({ cant: result.length, data: result }) 
 }catch(error){
     return resp.status(500).json({ message: "error en el servidor"})
