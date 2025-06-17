@@ -37,9 +37,9 @@ export const getCitasxid = async(req, res)=>{
 export const postCitas = async(req, res)=>{
     try{
         const estado_cita = "P"
-        const {id_paciente, id_medico, id_institucion_salud, fecha_cita} =req.body
-        const [result] = await conmysql.query(' INSERT INTO CITAS (ID_PACIENTE, ID_MEDICO, ID_INSTITUCION_SALUD, FECHA_CITA, ESTADO_CITA) VALUES(?,?,?,?,?)', 
-        [id_paciente, id_medico, id_institucion_salud, fecha_cita, estado_cita])
+        const {id_paciente, id_medico, id_institucion_salud, fecha_cita, hora_cita} =req.body
+        const [result] = await conmysql.query(' INSERT INTO CITAS (ID_PACIENTE, ID_MEDICO, ID_INSTITUCION_SALUD, FECHA_CITA, HORA_CITA,ESTADO_CITA) VALUES(?,?,?,?,?,?)', 
+        [id_paciente, id_medico, id_institucion_salud, fecha_cita, hora_cita,estado_cita])
         
         res.send({
             id_cita: result.insertId
@@ -53,11 +53,11 @@ export const postCitas = async(req, res)=>{
 export const putCitas=async(req,res)=>{
     try{
         const {id} = req.params
-        const {id_paciente, id_medico, id_institucion_salud, fecha_cita, estado_cita}=req.body
+        const {id_paciente, id_medico, id_institucion_salud, fecha_cita, hora_cita,estado_cita}=req.body
         
         const [result] = await conmysql.query(
-            'UPDATE CITAS SET ID_PACIENTE=?, ID_MEDICO=?, ID_INSTITUCION_SALUD=?, FECHA_CITA=?,ESTADO_CITA=? WHERE ID_CITA=?',
-            [id_paciente, id_medico, id_institucion_salud, fecha_cita, estado_cita,id])
+            'UPDATE CITAS SET ID_PACIENTE=?, ID_MEDICO=?, ID_INSTITUCION_SALUD=?, FECHA_CITA=?,HORA_CITA=?,ESTADO_CITA=? WHERE ID_CITA=?',
+            [id_paciente, id_medico, id_institucion_salud, fecha_cita, hora_cita,estado_cita,id])
 
             if(result.affectedRows<=0) return res.status(404).json({
                 message: "Cita no encontrada"
@@ -77,11 +77,11 @@ export const putCitas=async(req,res)=>{
 export const patchCitas=async(req,res)=>{
     try{
         const {id} = req.params
-        const {id_paciente, id_medico, id_institucion_salud, fecha_cita, estado_cita}=req.body
+        const {id_paciente, id_medico, id_institucion_salud, fecha_cita, hora_cita,estado_cita}=req.body
         
         const [result] = await conmysql.query(
-            'UPDATE CITAS SET ID_PACIENTE=IFNULL(?, ID_PACIENTE), ID_MEDICO=IFNULL(?, ID_MEDICO), ID_INSTITUCION_SALUD=IFNULL(?, ID_INSTITUCION_SALUD), FECHA_CITA=IFNULL(?, FECHA_CITA), ESTADO_CITA=IFNULL(?, ESTADO_CITA) WHERE ID_CITA=?',
-            [id_paciente, id_medico, id_institucion_salud, fecha_cita, estado_cita, id])
+            'UPDATE CITAS SET ID_PACIENTE=IFNULL(?, ID_PACIENTE), ID_MEDICO=IFNULL(?, ID_MEDICO), ID_INSTITUCION_SALUD=IFNULL(?, ID_INSTITUCION_SALUD), FECHA_CITA=IFNULL(?, FECHA_CITA), HORA_CITA=IFNULL(?, HORA_CITA),ESTADO_CITA=IFNULL(?, ESTADO_CITA) WHERE ID_CITA=?',
+            [id_paciente, id_medico, id_institucion_salud, fecha_cita, hora_cita,estado_cita, id])
 
             if(result.affectedRows<=0) return res.status(404).json({
                 message: "Cita no encontrada"
