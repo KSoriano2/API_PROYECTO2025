@@ -36,9 +36,9 @@ export const getCitasDetallexid = async(req, res)=>{
 //funcion para insertar un cliente
 export const postCitasDetalle = async(req, res)=>{
     try{
-        const {id_cita,id_especialidad,descripcion_servicio,costo_servicio} =req.body
-        const [result] = await conmysql.query(' INSERT INTO CITA_DETALLE (ID_CITA,ID_ESPECIALIDAD,DESCRIPCION_SERVICIO,COSTO_SERVICIO) VALUES(?,?,?,?)', 
-        [id_cita,id_especialidad,descripcion_servicio,costo_servicio])
+        const {id_cita,id_especialidad,descripcion_servicio} =req.body
+        const [result] = await conmysql.query(' INSERT INTO CITA_DETALLE (ID_CITA,ID_ESPECIALIDAD,DESCRIPCION_SERVICIO) VALUES(?,?,?)', 
+        [id_cita,id_especialidad,descripcion_servicio])
         
         res.send({
             id_cita_detalle: result.insertId
@@ -52,11 +52,11 @@ export const postCitasDetalle = async(req, res)=>{
 export const putCitasDetalle=async(req,res)=>{
     try{
         const {id} = req.params
-        const {id_cita,id_especialidad,descripcion_servicio,costo_servicio}=req.body
+        const {id_cita,id_especialidad,descripcion_servicio}=req.body
         
         const [result] = await conmysql.query(
-            'UPDATE CITA_DETALLE SET ID_CITA=?,ID_ESPECIALIDAD=?,DESCRIPCION_SERVICIO=?,COSTO_SERVICIO=? WHERE ID_CITA_DETALLE=?',
-            [id_cita,id_especialidad,descripcion_servicio,costo_servicio,id])
+            'UPDATE CITA_DETALLE SET ID_CITA=?,ID_ESPECIALIDAD=?,DESCRIPCION_SERVICIO=? WHERE ID_CITA_DETALLE=?',
+            [id_cita,id_especialidad,descripcion_servicio,id])
 
             if(result.affectedRows<=0) return res.status(404).json({
                 message: "Cita Detalle no encontrada"
@@ -76,10 +76,10 @@ export const putCitasDetalle=async(req,res)=>{
 export const patchCitasDetalle=async(req,res)=>{
     try{
         const {id} = req.params
-        const {id_cita,id_especialidad,descripcion_servicio,costo_servicio}=req.body
+        const {id_cita,id_especialidad,descripcion_servicio}=req.body
         
         const [result] = await conmysql.query(
-            'UPDATE CITA_DETALLE SET ID_CITA=IFNULL(?, ID_CITA),ID_ESPECIALIDAD=IFNULL(ID_ESPECIALIDAD),DESCRIPCION_SERVICIO=IFNULL(?, DESCRIPCION_SERVICIO),COSTO_SERVICIO=IFNULL(?, COSTO_SERVICIO) WHERE ID_CITA_DETALLE=?',
+            'UPDATE CITA_DETALLE SET ID_CITA=IFNULL(?, ID_CITA),ID_ESPECIALIDAD=IFNULL(ID_ESPECIALIDAD),DESCRIPCION_SERVICIO=IFNULL(?, DESCRIPCION_SERVICIO) WHERE ID_CITA_DETALLE=?',
             [id_cita,id_especialidad,descripcion_servicio,costo_servicio, id])
 
             if(result.affectedRows<=0) return res.status(404).json({
