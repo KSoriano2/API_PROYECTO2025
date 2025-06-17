@@ -36,7 +36,7 @@ export const getCitasxid = async(req, res)=>{
 //funcion para insertar un cliente
 export const postCitas = async(req, res)=>{
     try{
-        const estado_cita = "A"
+        const estado_cita = "P"
         const {id_paciente, id_medico, id_institucion_salud, fecha_cita} =req.body
         const [result] = await conmysql.query(' INSERT INTO CITAS (ID_PACIENTE, ID_MEDICO, ID_INSTITUCION_SALUD, FECHA_CITA, ESTADO_CITA) VALUES(?,?,?,?,?)', 
         [id_paciente, id_medico, id_institucion_salud, fecha_cita, estado_cita])
