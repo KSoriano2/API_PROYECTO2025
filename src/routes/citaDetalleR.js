@@ -6,8 +6,8 @@ import { getCitasDetalle, getCitasDetallexid, postCitasDetalle, putCitasDetalle,
 const router = Router();
 
 //armar las rutas "URL";
-router.get('/cita_detalle', getCitasDetalle ),
-router.get('/cita_detalle/:id', getCitasDetallexid)
+router.get('/cita_detalle/:id', getCitasDetalle ),
+router.get('/obtenercita_detalle/:id', getCitasDetallexid)
 router.post('/cita_detalle', postCitasDetalle)
 router.put('/cita_detalle/:id', putCitasDetalle)
 router.patch('/cita_detalle/:id', patchCitasDetalle)
