@@ -104,7 +104,7 @@ export const getCitasOcupadas = async (req, res) => {
   try {
     const [result] = await conmysql.query(`
       SELECT HORA_CITA
-      FROM HISTORIAL_CITAS
+      FROM CITAS
       WHERE ID_MEDICO = ? AND FECHA_CITA = ?
     `, [idMedico, fecha]);
 
