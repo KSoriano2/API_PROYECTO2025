@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { loginUsuario, recuperarMenu} from "../controladores/loginC.js";
+import { loginUsuario, recuperarMenu, obtenerIdPaciente} from "../controladores/loginC.js";
 
 
 const router = Router();
 
 router.post('/login', loginUsuario);
 router.post('/menu', recuperarMenu);
-
+router.get('/obteneridpac', obtenerIdPaciente)
 export default router; 
