@@ -6,5 +6,5 @@ const router = Router();
 
 router.post('/login', loginUsuario);
 router.post('/menu', recuperarMenu);
-router.get('/obteneridpac', obtenerIdPaciente)
+router.post('/obteneridpac', obtenerIdPaciente)
 export default router; 
