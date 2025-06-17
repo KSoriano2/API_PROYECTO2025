@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getCitasOcupadas, getCitasxid, postCitas, putCitas, patchCitas, deleteCitasxid, getCitas } from "../controladores/citasC.js";
+import {getCitas, getCitasOcupadas, getCitasxid, postCitas, putCitas, patchCitas, deleteCitasxid } from "../controladores/citasC.js";
 
 
 
