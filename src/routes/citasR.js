@@ -6,7 +6,7 @@ import {getCitas, getCitasOcupadas, getCitasxid, postCitas, putCitas, patchCitas
 const router = Router();
 
 //armar las rutas "URL";
-router.get('/citas', getCitas ),
+router.post('/citaspac', getCitas ),
 router.get('/citas/:id', getCitasxid)
 router.get('/ocupadas/:idMedico/:fecha', getCitasOcupadas);
 router.post('/citas', postCitas)
