@@ -103,19 +103,18 @@ export const getCitasOcupadas = async (req, res) => {
 
   try {
     const [result] = await conmysql.query(`
-      SELECT DATE_FORMAT(FECHA_CITA, '%H:%i:00') AS HORA_CITA
+      SELECT HORA_CITA
       FROM HISTORIAL_CITAS
-      WHERE ID_MEDICO = ? AND DATE(FECHA_CITA) = ?
+      WHERE ID_MEDICO = ? AND FECHA_CITA = ?
     `, [idMedico, fecha]);
 
-    const horas = result.map(row => row.HORA_CITA);
-    res.json({ ocupadas: horas });
+    const horas = result.map(row => row.HORA_CITA);  // por ejemplo: "16:30:00"
+    res.json({ ocupadas: horas });  // enviamos las horas ocupadas
   } catch (error) {
     console.error(error);
     res.status(500).json({ mensaje: 'Error al obtener citas ocupadas' });
   }
 }
-
 //función eliminar
 export const deleteCitasxid = async(req, res)=>{
     try{
