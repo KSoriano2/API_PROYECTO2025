@@ -86,8 +86,10 @@ export const postMedicos = async (req, res) => {
       id_inst_esp,
     } = req.body;
 
-    const imagen_medico = req.file ? req.file.path : null;
-
+     let imagen_medico = null;
+      if (req.file && req.file.buffer) {
+        imagen_medico = await subirImagenCloudinary(req.file.buffer);
+      }
     const [result] = await conmysql.query(
       `INSERT INTO MEDICOS 
       (NOMBRE_MEDICO, CEDULA_MEDICO, ESPECIALIDAD_MEDICO, TELEFONO_MEDICO, CORREO_MEDICO, 
@@ -130,8 +132,10 @@ export const putMedicos = async (req, res) => {
       id_inst_esp,
     } = req.body;
 
-    const imagen_medico = req.file ? req.file.path : null;
-
+    let imagen_medico = null;
+    if (req.file && req.file.buffer) {
+      imagen_medico = await subirImagenCloudinary(req.file.buffer);
+    }
     const [result] = await conmysql.query(
       `UPDATE MEDICOS SET 
         NOMBRE_MEDICO = ?, 
@@ -187,7 +191,10 @@ export const patchMedicos = async (req, res) => {
       id_inst_esp,
     } = req.body;
 
-    const imagen_medico = req.file ? req.file.path : null;
+    let imagen_medico = null;
+    if (req.file && req.file.buffer) {
+      imagen_medico = await subirImagenCloudinary(req.file.buffer);
+    }
 
     const [result] = await conmysql.query(
       `UPDATE MEDICOS SET 
