@@ -1,4 +1,39 @@
 import { conmysql } from "../bd.js";
+import { v2 as cloudinary } from 'cloudinary';
+import { Readable } from 'stream';
+
+
+function bufferToStream(buffer) {
+  const readable = new Readable();
+  readable._read = () => {};
+  readable.push(buffer);
+  readable.push(null);
+  return readable;
+}
+
+
+cloudinary.config({
+  cloud_name: 'dxemv02vq',
+  api_key: '553718753892582',
+  api_secret: 'B70Rkk4ltT0X6-iKM5Z5UF6JREk'
+});
+
+function subirImagenCloudinary(buffer, carpeta = 'medicamentos') {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: carpeta,
+        transformation: { width: 800, height: 800, crop: 'limit' }
+      },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result.secure_url);
+      }
+    );
+    bufferToStream(buffer).pipe(stream);
+  });
+}
+
 
 export const obtenerMedicamentos = (req, resp)=>{
     resp.send('Lista de Medicamentos')
@@ -34,21 +69,41 @@ export const getMedicamentosxid = async(req, res)=>{
 }
 
 //funcion para insertar un cliente
-export const postMedicamentos = async(req, res)=>{
-    try{
-        const estado_medicamento = "A"
-        const {nombre_medicamento,descripcion_medicamento,categoria_medicamento,stock_medicamento} =req.body
-        const imagen_medicamento = req.file ? `/uploads/${req.file.filename}`: null;
-        const [result] = await conmysql.query(' INSERT INTO MEDICAMENTOS (NOMBRE_MEDICAMENTO,DESCRIPCION_MEDICAMENTO,CATEGORIA_MEDICAMENTO,STOCK_MEDICAMENTO,IMAGEN_MEDICAMENTO,ESTADO_MEDICAMENTO) VALUES(?,?,?,?,?,?)', 
-        [nombre_medicamento,descripcion_medicamento,categoria_medicamento,stock_medicamento,estado_medicamento,imagen_medicamento])
-        
-        res.send({
-            id_institucion_salud: result.insertId
-        })
-    }catch(error){
-        return res.status(500).json({ message: "error en el servidor"})
+export const postMedicamentos = async (req, res) => {
+  try {
+    const estado_medicamento = "A";
+    const {
+      nombre_medicamento,
+      descripcion_medicamento,
+      categoria_medicamento,
+      stock_medicamento,
+    } = req.body;
+
+    let imagen_medicamento = null;
+    if (req.file && req.file.buffer) {
+      imagen_medicamento = await subirImagenCloudinary(req.file.buffer);
     }
-}
+
+    const [result] = await conmysql.query(
+      'INSERT INTO MEDICAMENTOS (NOMBRE_MEDICAMENTO, DESCRIPCION_MEDICAMENTO, CATEGORIA_MEDICAMENTO, STOCK_MEDICAMENTO, IMAGEN_MEDICAMENTO, ESTADO_MEDICAMENTO) VALUES (?, ?, ?, ?, ?, ?)',
+      [
+        nombre_medicamento,
+        descripcion_medicamento,
+        categoria_medicamento,
+        stock_medicamento,
+        imagen_medicamento,
+        estado_medicamento,
+      ]
+    );
+
+    res.send({
+      id_medicamento: result.insertId,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "error en el servidor" });
+  }
+};
 
 
 export const putMedicamentos=async(req,res)=>{
