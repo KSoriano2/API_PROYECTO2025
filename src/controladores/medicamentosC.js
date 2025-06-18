@@ -43,7 +43,7 @@ export const restarStock= async (req, res) => {
       SET STOCK_MEDICAMENTO = STOCK_MEDICAMENTO - ?
       WHERE ID_MEDICAMENTO = ? AND STOCK_MEDICAMENTO >= ?`;
 
-    const [result] = await conexion.query(sql, [cantidad, id_medicamento, cantidad]);
+    const [result] = await conmysql.query(sql, [cantidad, id_medicamento, cantidad]);
     if (result.affectedRows === 0) {
       return res.status(400).json({ message: 'No hay suficiente stock para este medicamento' });
     }
