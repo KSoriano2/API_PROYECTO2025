@@ -13,6 +13,22 @@ try{
 }
 }
 
+export const getRecetasPorPaciente = async (req, res) => {
+  const {id} = req.params;
+  try {
+    const [result] = await conmysql.query(`
+      SELECT R.ID_RECETA, R.FECHA_RECETA, R.DESCRIPCION_RECETA
+      FROM RECETAS_MEDICAS R
+      JOIN CITAS C ON R.ID_CITA = C.ID_CITA
+      WHERE C.ID_PACIENTE = ?`, [id]);
+
+    res.json({ ok: true, data: result });
+  } catch (error) {
+    res.status(500).json({ ok: false, error });
+  }
+};
+
+
 
 //retorna cliente x id
 export const getRecetasMedicasxid = async(req, res)=>{
