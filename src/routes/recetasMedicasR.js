@@ -6,7 +6,7 @@ const router = Router();
 
 router.get('/recetas_medicas', getRecetasMedicas);
 router.get('/recetas_medicas/:id', getRecetasMedicasxid);
-router.get('/paciente/:id', getRecetasPorPaciente);
+router.get('/paciente_recetas/:id', getRecetasPorPaciente);
 router.post('/recetas_medicas', postRecetasMedicas);
 router.put('/recetas_medicas', putRecetasMedicas);
 router.patch('/recetas_medicas/:id', patchRecetasMedicas);
