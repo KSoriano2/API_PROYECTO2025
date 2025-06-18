@@ -18,7 +18,7 @@ cloudinary.config({
   api_secret: 'B70Rkk4ltT0X6-iKM5Z5UF6JREk'
 });
 
-function subirImagenCloudinary(buffer, carpeta = 'medicamentos') {
+function subirImagenCloudinary(buffer, carpeta = 'medicos') {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
       {
