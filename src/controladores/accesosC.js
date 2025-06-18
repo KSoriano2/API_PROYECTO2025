@@ -37,9 +37,9 @@ export const getAccesoxid = async(req, res)=>{
 export const postAcceso = async(req, res)=>{
     try{
         const acceso_estado = "A";
-        const {perfil_id,acceso_nombre,acceso_pagina} =req.body
-        const [result] = await conmysql.query(' INSERT INTO ACCESOS(PERFIL_ID,ACCESO_NOMBRE,ACCESO_PAGINA,ACCESO_ESTADO) VALUES(?,?)', 
-        [perfil_id,acceso_nombre,acceso_pagina,acceso_estado])
+        const {perfil_id,acceso_nombre,acceso_pagina,icono} =req.body
+        const [result] = await conmysql.query(' INSERT INTO ACCESOS(PERFIL_ID,ACCESO_NOMBRE,ACCESO_PAGINA,ICONO,ACCESO_ESTADO) VALUES(?,?,?,?,?)', 
+        [perfil_id,acceso_nombre,acceso_pagina,icono,acceso_estado])
         
         res.send({
             id_acceso: result.insertId
@@ -53,11 +53,11 @@ export const postAcceso = async(req, res)=>{
 export const putAcceso=async(req,res)=>{
     try{
         const {id} = req.params
-        const {perfil_id,acceso_nombre,acceso_pagina,acceso_estado}=req.body
+        const {perfil_id,acceso_nombre,acceso_pagina,icono,acceso_estado}=req.body
         
         const [result] = await conmysql.query(
-            'UPDATE ACCESOS SET PERFIL_ID=?,ACCESO_NOMBRE=?,ACCESO_PAGINA=?,ACCESO_ESTADO=? where ID_ACCESO=?',
-            [perfil_id,acceso_nombre,acceso_pagina,acceso_estado,id])
+            'UPDATE ACCESOS SET PERFIL_ID=?,ACCESO_NOMBRE=?,ACCESO_PAGINA=?,ICONO=?,ACCESO_ESTADO=? where ID_ACCESO=?',
+            [perfil_id,acceso_nombre,acceso_pagina,icono,acceso_estado,id])
 
             if(result.affectedRows<=0) return res.status(404).json({
                 message: "Acceso no encontrado"
@@ -80,8 +80,8 @@ export const patchAcceso=async(req,res)=>{
         const {perfil_id,acceso_nombre,acceso_pagina,acceso_estado}=req.body
         
         const [result] = await conmysql.query(
-            'UPDATE ACCESOS SET PERFIL_ID=IFNULL(?, PERFIL_ID),ACCESO_NOMBRE=IFNULL(?, ACCESO_NOMBRE),ACCESO_PAGINA=IFNULL(?, ACCESO_PAGINA),ACCESO_ESTADO=IFNULL(?, ACCESO_ESTADO) WHERE ID_ACCESO=?',
-            [perfil_id,acceso_nombre,acceso_pagina,acceso_estado, id])
+            'UPDATE ACCESOS SET PERFIL_ID=IFNULL(?, PERFIL_ID),ACCESO_NOMBRE=IFNULL(?, ACCESO_NOMBRE),ACCESO_PAGINA=IFNULL(?, ACCESO_PAGINA),ICONO=IFNULL(?, ICONO),ACCESO_ESTADO=IFNULL(?, ACCESO_ESTADO) WHERE ID_ACCESO=?',
+            [perfil_id,acceso_nombre,acceso_pagina,icono,acceso_estado, id])
 
             if(result.affectedRows<=0) return res.status(404).json({
                 message: "Acceso no encontrado"
