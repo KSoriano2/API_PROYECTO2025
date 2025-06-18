@@ -103,7 +103,7 @@ export const patchCamposFaltantes=async(req,res)=>{
         const {diagnostico, observaciones}=req.body
         
         const [result] = await conmysql.query(
-            'UPDATE CITA_DETALLE DIAGNOSTICO=IFNULL(?, DIAGNOSTICO), OBSERVACIONES=IFNULL(?, OBSERVACIONES) WHERE ID_CITA_DETALLE=?',
+            'UPDATE CITA_DETALLE SET DIAGNOSTICO=IFNULL(?, DIAGNOSTICO), OBSERVACIONES=IFNULL(?, OBSERVACIONES) WHERE ID_CITA_DETALLE=?',
             [diagnostico, observaciones ,id])
 
             if(result.affectedRows<=0) return res.status(404).json({
