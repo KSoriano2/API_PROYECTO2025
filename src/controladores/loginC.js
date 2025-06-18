@@ -107,3 +107,4 @@ export const obtenerIdMedico = async (req, res) => {
     return res.status(500).json({ error: "Error del servidor" });
   }
 
+}
