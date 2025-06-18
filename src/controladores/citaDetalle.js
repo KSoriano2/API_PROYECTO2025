@@ -97,6 +97,32 @@ export const patchCitasDetalle=async(req,res)=>{
     }
 }
 
+export const patchCamposFaltantes=async(req,res)=>{
+    try{
+        const {id} = req.params
+        const {diagnostico, observaciones}=req.body
+        
+        const [result] = await conmysql.query(
+            'UPDATE CITA_DETALLE DIAGNOSTICO=IFNULL(?, DIAGNOSTICO), OBSERVACIONES=IFNULL(?, OBSERVACIONES) WHERE ID_CITA_DETALLE=?',
+            [diagnostico, observaciones ,id])
+
+            if(result.affectedRows<=0) return res.status(404).json({
+                message: "Cita Detalle no encontrada"
+            })
+
+            const [row] = await conmysql.query(' select * from CITA_DETALLE WHERE ID_CITA_DETALLE=?', [id])
+            res.json(row[0])
+
+
+            
+        
+    }catch(error){
+        return res.status(500).json({ message: "error en el servidor"})       
+    }
+}
+
+
+
 //función eliminar
 export const deleteCitasDetallexid = async(req, res)=>{
     try{
