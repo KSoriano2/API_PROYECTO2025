@@ -53,7 +53,7 @@ export const recuperarMenu = async (req, res) => {
 
     // 3. Consultar los accesos según el perfil del usuario
     const [menuRows] = await conmysql.query(
-      "SELECT ACCESO_NOMBRE, ACCESO_PAGINA FROM ACCESOS WHERE PERFIL_ID = ? OR PERFIL_ID IS NULL AND ACCESO_ESTADO = 'A'",
+      "SELECT ACCESO_NOMBRE, ACCESO_PAGINA, ICONO FROM ACCESOS WHERE PERFIL_ID = ? OR PERFIL_ID IS NULL AND ACCESO_ESTADO = 'A'",
       [per_id]
     );
 
