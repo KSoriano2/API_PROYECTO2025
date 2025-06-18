@@ -116,7 +116,7 @@ export const getCitasOcupadas = async (req, res) => {
     const [result] = await conmysql.query(`
       SELECT HORA_CITA
       FROM CITAS
-      WHERE ID_MEDICO = ? AND FECHA_CITA = ?
+      WHERE ID_MEDICO = ? AND FECHA_CITA = ? AND ESTADO_CITA = "P"
     `, [idMedico, fecha]);
 
     const horas = result.map(row => row.HORA_CITA);  // por ejemplo: "16:30:00"
