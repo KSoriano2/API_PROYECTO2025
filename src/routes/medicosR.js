@@ -4,17 +4,8 @@ import multer from "multer";
 
 const router = Router();
 
-const storage = multer.diskStorage({
-destination: (req, file, cb)=>{
-    cb(null, 'uploads'); //carpeta donde se guardan las imagenes
-},
-filename:(req, file, cb)=>{
-    cb(null, `${Date.now()}-${file.originalname}`);
-}
-})
-
-
-const upload = multer({storage});
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 
 
