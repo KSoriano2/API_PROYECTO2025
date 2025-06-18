@@ -11,7 +11,7 @@ router.get('/obtenercita_detalle/:id', getCitasDetallexid)
 router.post('/cita_detalle', postCitasDetalle)
 router.put('/cita_detalle/:id', putCitasDetalle)
 router.patch('/cita_detalle/:id', patchCitasDetalle)
-router.patch('campos_faltantes/:id', patchCamposFaltantes)
+router.patch('/campos_faltantes/:id', patchCamposFaltantes)
 router.delete('/cita_detalle/:id', deleteCitasDetallexid)
 
 export default router;
