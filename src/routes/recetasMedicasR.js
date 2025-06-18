@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { getRecetasPorPaciente,getRecetasMedicas, getRecetasMedicasxid, postRecetasMedicas, putRecetasMedicas, patchRecetasMedicas, deleteRecetasMedicasxid } from "../controladores/recetasMedicasC.js";
+import { getMedicamentosPorReceta,getRecetasPorPaciente,getRecetasMedicas,getRecetasMedicasxid, postRecetasMedicas, putRecetasMedicas, patchRecetasMedicas, deleteRecetasMedicasxid } from "../controladores/recetasMedicasC.js";
 
 
 const router = Router();
-
+router.get('/recetas/medicamentos/:id', getMedicamentosPorReceta);
 router.get('/recetas_medicas', getRecetasMedicas);
 router.get('/recetas_medicas/:id', getRecetasMedicasxid);
 router.get('/paciente_recetas/:id', getRecetasPorPaciente);
