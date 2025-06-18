@@ -23,6 +23,7 @@ import perfilRoutes from './routes/perfilR.js'
 import recetasMedicasRoutes from './routes/recetasMedicasR.js'
 import recetaMedicamentoRoutes from './routes/recetaMedicamentoR.js'
 import horariosMedicoRoutes from './routes/horariosmedicoR.js'
+import expedienteRoutes from './routes/expedienteR.js'
 
 
 
@@ -66,7 +67,7 @@ app.use('/api', recetasMedicasRoutes)
 app.use('/api', recetaMedicamentoRoutes)
 app.use('/api', usuariosRoutes)
 app.use('/api', horariosMedicoRoutes)
-
+app.use('/api', expedienteRoutes)
 
 
 app.use((req, resp, next)=>{
