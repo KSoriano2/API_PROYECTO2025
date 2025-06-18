@@ -12,7 +12,7 @@ import multer from "multer";
 
 const router = Router();
 
-// Usamos memoryStorage porque subimos a Cloudinary directamente desde el buffer
+
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
