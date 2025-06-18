@@ -2,7 +2,7 @@ import { conmysql } from '../bd.js';
 
 export const buscarPacientePorCedula = async (req, res) => {
   try {
-    const cedula = req.params.cedula;
+    const {cedula} = req.params;
     const [rows] = await conmysql.query(
       'SELECT ID_PACIENTE, NOMBRE, APELLIDO, CEDULA, CORREO, TELEFONO FROM PACIENTES WHERE CEDULA = ?',
       [cedula]
@@ -21,10 +21,10 @@ export const buscarPacientePorCedula = async (req, res) => {
 
 export const obtenerExpedientePorPaciente = async (req, res) => {
   try {
-    const idPaciente = req.params.id;
+    const {id} = req.params;
     const [rows] = await conmysql.query(
       'SELECT * FROM EXPEDIENTE_MEDICO WHERE ID_PACIENTE = ? AND ESTADO_EXPEDIENTE = "A"',
-      [idPaciente]
+      [id]
     );
 
     if (rows.length === 0) {
