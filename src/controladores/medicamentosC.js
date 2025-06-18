@@ -44,7 +44,6 @@ export const restarStock= async (req, res) => {
       WHERE ID_MEDICAMENTO = ? AND STOCK_MEDICAMENTO >= ?`;
 
     const [result] = await conexion.query(sql, [cantidad, id_medicamento, cantidad]);
-
     if (result.affectedRows === 0) {
       return res.status(400).json({ message: 'No hay suficiente stock para este medicamento' });
     }
@@ -54,9 +53,7 @@ export const restarStock= async (req, res) => {
     console.error(error);
     res.status(500).json({ message: 'Error al actualizar el stock' });
   }
-});
-
-
+}
 
 export const obtenerMedicamentos = (req, resp)=>{
     resp.send('Lista de Medicamentos')
