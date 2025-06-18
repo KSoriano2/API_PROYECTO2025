@@ -4,7 +4,7 @@ import { getInstitucionEspe, getInstitucionEspexid, postInstitucionEspe, putInst
 
 const router = Router();
 
-router.get('/institucion_especialidad/:id', getInstitucionEspe);
+router.get('/institucion_especialidad', getInstitucionEspe);
 router.get('/institucion_especialidad/:id', getInstitucionEspexid);
 router.post('/institucion_especialidad', postInstitucionEspe);
 router.put('/institucion_especialidad', putInstitucionEspe);

@@ -71,3 +71,40 @@ export const recuperarMenu = async (req, res) => {
     return res.status(500).json({ error: "Ocurrió un error al recuperar el menú", message: error.message });
   }
 };
+
+export const obtenerIdPaciente = async (req, res) => {
+  const { id_usuario } = req.body;
+
+  try {
+    const [rows] = await conmysql.query("SELECT * FROM PACIENTES WHERE ID_USUARIO = ? ", [id_usuario]);
+   
+    if (rows.length === 0) {
+      return res.status(401).json({ message: "Usuario no encontrado" });
+    }
+
+    res.json({ cant: rows.length, data: rows })
+    
+  } catch (error) {
+    console.error("Error general:", error);
+    return res.status(500).json({ error: "Error del servidor" });
+  }
+}
+
+export const obtenerIdMedico = async (req, res) => {
+  const { id_usuario } = req.body;
+
+  try {
+    const [rows] = await conmysql.query("SELECT * FROM MEDICOS WHERE ID_USUARIO = ? ", [id_usuario]);
+   
+    if (rows.length === 0) {
+      return res.status(401).json({ message: "Usuario no encontrado" });
+    }
+
+    res.json({ cant: rows.length, data: rows })
+    
+  } catch (error) {
+    console.error("Error general:", error);
+    return res.status(500).json({ error: "Error del servidor" });
+  }
+
+}

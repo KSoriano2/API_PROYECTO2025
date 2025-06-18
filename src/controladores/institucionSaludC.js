@@ -6,7 +6,7 @@ export const obtenerInstitucionesSalud = (req, resp)=>{
 
 export const getInstitucionesSalud=async(req, resp)=>{
 try{
-    const [result] = await conmysql.query(' select * from INSTITUCIONES_SALUD where ESTADO_INSTITUCION="A" ')
+    const [result] = await conmysql.query(' select * from INSTITUCION_SALUD where ESTADO_INSTITUCION="A" ')
     resp.json({ cant: result.length, data: result }) 
 }catch(error){
     return resp.status(500).json({ message: "error en el servidor"})
@@ -17,7 +17,7 @@ try{
 //retorna cliente x id
 export const getInstitucionesSaludxid = async(req, res)=>{
     try{
-        const [result] = await conmysql.query(' select * from INSTITUCIONES_SALUD where ID_INSTITUCION_SALUD =? ', [req.params.id])
+        const [result] = await conmysql.query(' select * from INSTITUCION_SALUD where ID_INSTITUCION_SALUD =? ', [req.params.id])
         console.log(req.params.id)
         if(result.length<=0) return res.status(400).json({
             id_usuario:0,
@@ -57,7 +57,7 @@ export const putInstitucionSalud=async(req,res)=>{
         const {nombre_institucion_salud,celular_institucion,correo_institucion,ubicacion_institucion,estado_institucion}=req.body
         const imagen_institucion = req.file ? `/uploads/${req.file.filename}`: null;
         const [result] = await conmysql.query(
-            'UPDATE USUARIOS SET NOMBRE_INSTITUCION_SALUD=?,CELULAR_INSTITUCION=?,CORREO_INSTITUCION=?,UBICACION_INSTITUCION=?,IMAGEN_INSTITUCION=?,ESTADO_INSTITUCION=? WHERE ID_INSTITUCION_SALUD=?',
+            'UPDATE INSTITUCION_SALUD SET NOMBRE_INSTITUCION_SALUD=?,CELULAR_INSTITUCION=?,CORREO_INSTITUCION=?,UBICACION_INSTITUCION=?,IMAGEN_INSTITUCION=?,ESTADO_INSTITUCION=? WHERE ID_INSTITUCION_SALUD=?',
             [nombre_institucion_salud,celular_institucion,correo_institucion,ubicacion_institucion,imagen_institucion,estado_institucion,id])
 
             if(result.affectedRows<=0) return res.status(404).json({

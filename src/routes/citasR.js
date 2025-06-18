@@ -1,13 +1,15 @@
 import { Router } from "express";
-import { getCitasxid, postCitas, putCitas, patchCitas, deleteCitasxid, getCitas } from "../controladores/citasC.js";
+import {getCitas, getCitasMedicos,getCitasOcupadas, getCitasxid, postCitas, putCitas, patchCitas, deleteCitasxid } from "../controladores/citasC.js";
 
 
 
 const router = Router();
 
 //armar las rutas "URL";
-router.get('/citas', getCitas ),
-router.get('/citas/:id', getCitasxid)
+router.post('/citaspac', getCitas );
+router.post('/citasmed', getCitasMedicos);
+router.get('/citas/:id', getCitasxid);
+router.get('/ocupadas/:idMedico/:fecha', getCitasOcupadas);
 router.post('/citas', postCitas)
 router.put('/citas/:id', putCitas)
 router.patch('/citas/:id', patchCitas)
