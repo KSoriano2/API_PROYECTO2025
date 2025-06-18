@@ -13,6 +13,21 @@ try{
 }
 }
 
+export const getMedicamentosPorReceta = async (req, res) => {
+  try {
+    const [rows] = await conmysql.query(`
+      SELECT rm.*, m.NOMBRE_MEDICAMENTO 
+      FROM RECETA_MEDICAMENTO rm
+      JOIN MEDICAMENTOS m ON m.ID_MEDICAMENTO = rm.ID_MEDICAMENTO
+      WHERE rm.ID_RECETA = ?
+    `, [req.params.id]);
+
+    res.json({ data: rows });
+  } catch (err) {
+    res.status(500).json({ message: 'Error al obtener medicamentos de la receta' });
+  }
+};
+
 export const getRecetasPorPaciente = async (req, res) => {
   const {id} = req.params;
   try {
