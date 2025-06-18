@@ -106,53 +106,108 @@ export const postMedicamentos = async (req, res) => {
 };
 
 
-export const putMedicamentos=async(req,res)=>{
-    try{
-        const {id} = req.params
-        const {nombre_medicamento,descripcion_medicamento,categoria_medicamento,stock_medicamento,estado_medicamento}=req.body
-        const imagen_medicamento = req.file ? `/uploads/${req.file.filename}`: null;
-        const [result] = await conmysql.query(
-            'UPDATE MEDICAMENTOS SET NOMBRE_MEDICAMENTO=?,DESCRIPCION_MEDICAMENTO=?,CATEGORIA_MEDICAMENTO=?,STOCK_MEDICAMENTO=?,IMAGEN_MEDICAMENTO=?,ESTADO_MEDICAMENTO=? WHERE ID_MEDICAMENTO=?',
-            [nombre_medicamento,descripcion_medicamento,categoria_medicamento,stock_medicamento,imagen_medicamento,estado_medicamento,id])
+export const putMedicamentos = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      nombre_medicamento,
+      descripcion_medicamento,
+      categoria_medicamento,
+      stock_medicamento,
+      estado_medicamento
+    } = req.body;
 
-            if(result.affectedRows<=0) return res.status(404).json({
-                message: "Medicamento no encontrado"
-            })
-
-            const [row] = await conmysql.query(' select * from MEDICAMENTOS WHERE ID_MEDICAMENTO=?', [id])
-            res.json(row[0])
-
-
-            
-        
-    }catch(error){
-        return res.status(500).json({ message: "error en el servidor"})       
+    let imagen_medicamento = null;
+    if (req.file && req.file.buffer) {
+      imagen_medicamento = await subirImagenCloudinary(req.file.buffer);
     }
-}
 
-export const patchMedicamentos=async(req,res)=>{
-    try{
-        const {id} = req.params
-        const {nombre_medicamento,descripcion_medicamento,categoria_medicamento,stock_medicamento,estado_medicamento}=req.body
-        const imagen_medicamento = req.file ? `/uploads/${req.file.filename}`: null;
-        const [result] = await conmysql.query(
-            'UPDATE MEDICAMENTOS SET NOMBRE_MEDICAMENTO=IFNULL(?, NOMBRE_MEDICAMENTO),DESCRIPCION_MEDICAMENTO=IFNULL(?, DESCRIPCION_MEDICAMENTO),CATEGORIA_MEDICAMENTO=IFNULL(?, CATEGORIA_MEDICAMENTO),STOCK_MEDICAMENTO=IFNULL(?, STOCK_MEDICAMENTO),IMAGEN_MEDICAMENTO=IFNULL(?, IMAGEN_MEDICAMENTO),ESTADO_MEDICAMENTO=IFNULL(?, ESTADO_MEDICAMENTO) WHERE ID_MEDICAMENTO=?',
-            [nombre_medicamento,descripcion_medicamento,categoria_medicamento,stock_medicamento,imagen_medicamento,estado_medicamento, id])
+    const [result] = await conmysql.query(
+      `UPDATE MEDICAMENTOS 
+       SET NOMBRE_MEDICAMENTO=?, DESCRIPCION_MEDICAMENTO=?, 
+           CATEGORIA_MEDICAMENTO=?, STOCK_MEDICAMENTO=?, 
+           IMAGEN_MEDICAMENTO=?, ESTADO_MEDICAMENTO=? 
+       WHERE ID_MEDICAMENTO=?`,
+      [
+        nombre_medicamento,
+        descripcion_medicamento,
+        categoria_medicamento,
+        stock_medicamento,
+        imagen_medicamento,
+        estado_medicamento,
+        id
+      ]
+    );
 
-            if(result.affectedRows<=0) return res.status(404).json({
-                message: "Medicamento no encontrado"
-            })
-
-            const [row] = await conmysql.query(' select * from MEDICAMENTOS WHERE ID_MEDICAMENTO=?', [id])
-            res.json(row[0])
-
-
-            
-        
-    }catch(error){
-        return res.status(500).json({ message: "error en el servidor"})       
+    if (result.affectedRows <= 0) {
+      return res.status(404).json({ message: "Medicamento no encontrado" });
     }
-}
+
+    const [row] = await conmysql.query(
+      'SELECT * FROM MEDICAMENTOS WHERE ID_MEDICAMENTO = ?',
+      [id]
+    );
+    res.json(row[0]);
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "error en el servidor" });
+  }
+};
+
+export const patchMedicamentos = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      nombre_medicamento,
+      descripcion_medicamento,
+      categoria_medicamento,
+      stock_medicamento,
+      estado_medicamento
+    } = req.body;
+
+    let imagen_medicamento = null;
+    if (req.file && req.file.buffer) {
+      imagen_medicamento = await subirImagenCloudinary(req.file.buffer);
+    }
+
+    const [result] = await conmysql.query(
+      `UPDATE MEDICAMENTOS 
+       SET 
+         NOMBRE_MEDICAMENTO = IFNULL(?, NOMBRE_MEDICAMENTO),
+         DESCRIPCION_MEDICAMENTO = IFNULL(?, DESCRIPCION_MEDICAMENTO),
+         CATEGORIA_MEDICAMENTO = IFNULL(?, CATEGORIA_MEDICAMENTO),
+         STOCK_MEDICAMENTO = IFNULL(?, STOCK_MEDICAMENTO),
+         IMAGEN_MEDICAMENTO = IFNULL(?, IMAGEN_MEDICAMENTO),
+         ESTADO_MEDICAMENTO = IFNULL(?, ESTADO_MEDICAMENTO)
+       WHERE ID_MEDICAMENTO = ?`,
+      [
+        nombre_medicamento || null,
+        descripcion_medicamento || null,
+        categoria_medicamento || null,
+        stock_medicamento || null,
+        imagen_medicamento || null,
+        estado_medicamento || null,
+        id
+      ]
+    );
+
+    if (result.affectedRows <= 0) {
+      return res.status(404).json({ message: "Medicamento no encontrado" });
+    }
+
+    const [row] = await conmysql.query(
+      'SELECT * FROM MEDICAMENTOS WHERE ID_MEDICAMENTO = ?',
+      [id]
+    );
+    res.json(row[0]);
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "error en el servidor" });
+  }
+};
+
 
 //función eliminar
 export const deleteMedicamentosxid = async(req, res)=>{
