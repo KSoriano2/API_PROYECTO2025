@@ -1,4 +1,42 @@
 import { conmysql } from "../bd.js";
+import { v2 as cloudinary } from 'cloudinary';
+import { Readable } from 'stream';
+
+
+function bufferToStream(buffer) {
+  const readable = new Readable();
+  readable._read = () => {};
+  readable.push(buffer);
+  readable.push(null);
+  return readable;
+}
+
+
+cloudinary.config({
+  cloud_name: 'dxemv02vq',
+  api_key: '553718753892582',
+  api_secret: 'B70Rkk4ltT0X6-iKM5Z5UF6JREk'
+});
+
+function subirImagenCloudinary(buffer, carpeta = 'medicamentos') {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: carpeta,
+        transformation: { width: 800, height: 800, crop: 'limit' }
+      },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result.secure_url);
+      }
+    );
+    bufferToStream(buffer).pipe(stream);
+  });
+}
+
+
+
+
 
 export const obtenerMedicos = (req, resp)=>{
     resp.send('Lista de Médicos')
