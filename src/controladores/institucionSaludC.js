@@ -117,32 +117,53 @@ export const putInstitucionSalud=async(req,res)=>{
     }
 }
 
-export const patchInstitucionSalud=async(req,res)=>{
-    try{
-        const {id} = req.params
-        const {nombre_institucion_salud,celular_institucion,correo_institucion,ubicacion_institucion,estado_institucion}=req.body
-        let imagen_institucion = null;
-        if (req.file && req.file.buffer) {
-            imagen_institucion = await subirImagenCloudinary(req.file.buffer);
-        }
-        const [result] = await conmysql.query(
-            'UPDATE INSTITUCION_SALUD SET NOMBRE_INSTITUCION_SALUD=IFNULL(?, NOMBRE_INSTITUCION_SALUD),CELULAR_INSTITUCION=IFNULL(?, CELULAR_INSTITUCION),CORREO_INSTITUCION=IFNULL(?, CORREO_INSTITUCION),UBICACION_INSTITUCION=(?,UBICACION_INSTITUCION),IMAGEN_INSTITUCION=IFNULL(?, IMAGEN_INSTITUCION),ESTADO_INSTITUCION=IFNULL(?, ESTADO_INSTITUCION) WHERE ID_INSTITUCION_SALUD=?',
-            [nombre_institucion_salud,celular_institucion,correo_institucion,ubicacion_institucion,imagen_institucion,estado_institucion, id])
+export const patchInstitucionSalud = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      nombre_institucion_salud,
+      celular_institucion,
+      correo_institucion,
+      ubicacion_institucion,
+      estado_institucion
+    } = req.body;
 
-            if(result.affectedRows<=0) return res.status(404).json({
-                message: "Institucion de Salud no encontrada"
-            })
-
-            const [row] = await conmysql.query(' select * from INSTITUCION_SALUD WHERE ID_INSTITUCION_SALUD=?', [id])
-            res.json(row[0])
-
-
-            
-        
-    }catch(error){
-        return res.status(500).json({ message: "error en el servidor"})       
+    let imagen_institucion = null;
+    if (req.file && req.file.buffer) {
+      imagen_institucion = await subirImagenCloudinary(req.file.buffer);
     }
-}
+
+    const [result] = await conmysql.query(
+      `UPDATE INSTITUCION_SALUD SET 
+        NOMBRE_INSTITUCION_SALUD = IFNULL(?, NOMBRE_INSTITUCION_SALUD),
+        CELULAR_INSTITUCION = IFNULL(?, CELULAR_INSTITUCION),
+        CORREO_INSTITUCION = IFNULL(?, CORREO_INSTITUCION),
+        UBICACION_INSTITUCION = IFNULL(?, UBICACION_INSTITUCION),
+        IMAGEN_INSTITUCION = IFNULL(?, IMAGEN_INSTITUCION),
+        ESTADO_INSTITUCION = IFNULL(?, ESTADO_INSTITUCION)
+      WHERE ID_INSTITUCION_SALUD = ?`,
+      [
+        nombre_institucion_salud,
+        celular_institucion,
+        correo_institucion,
+        ubicacion_institucion,
+        imagen_institucion,
+        estado_institucion,
+        id
+      ]
+    );
+
+    if (result.affectedRows <= 0) {
+      return res.status(404).json({ message: "Institución de Salud no encontrada" });
+    }
+
+    const [row] = await conmysql.query('SELECT * FROM INSTITUCION_SALUD WHERE ID_INSTITUCION_SALUD = ?', [id]);
+    res.json(row[0]);
+  } catch (error) {
+    console.error("ERROR PATCH:", error);
+    return res.status(500).json({ message: "error en el servidor" });
+  }
+};
 
 //función eliminar
 export const deleteInstitucionSaludxid = async(req, res)=>{
