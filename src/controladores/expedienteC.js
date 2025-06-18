@@ -4,7 +4,7 @@ export const buscarPacientePorCedula = async (req, res) => {
   try {
     const {cedula} = req.params;
     const [rows] = await conmysql.query(
-      'SELECT ID_PACIENTE, NOMBRE, APELLIDO, CEDULA, CORREO, TELEFONO FROM PACIENTES WHERE CEDULA = ?',
+      'SELECT * FROM PACIENTES WHERE CEDULA_PACIENTE = ?',
       [cedula]
     );
 
