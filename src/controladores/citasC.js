@@ -14,8 +14,18 @@ try{
 }
 }
 
+export const getCitasMedicos=async(req, resp)=>{
+try{
+    const {id_medico}=req.body;
+    const [result] = await conmysql.query(' select * from CITAS where ID_MEDICO=? AND ESTADO_CITA != "I" ', [id_medico])
+    resp.json({ cant: result.length, data: result }) 
+}catch(error){
+    return resp.status(500).json({ message: "error en el servidor"})
+}
+}
 
-//retorna cliente x id
+
+
 export const getCitasxid = async(req, res)=>{
     try{
         const [result] = await conmysql.query(' select * from CITAS where ID_CITA =? ', [req.params.id])
