@@ -34,6 +34,29 @@ function subirImagenCloudinary(buffer, carpeta = 'medicamentos') {
   });
 }
 
+export const restarStock= async (req, res) => {
+  const { id_medicamento, cantidad } = req.body;
+
+  try {
+    const sql = `
+      UPDATE MEDICAMENTOS 
+      SET STOCK_MEDICAMENTO = STOCK_MEDICAMENTO - ?
+      WHERE ID_MEDICAMENTO = ? AND STOCK_MEDICAMENTO >= ?`;
+
+    const [result] = await conexion.query(sql, [cantidad, id_medicamento, cantidad]);
+
+    if (result.affectedRows === 0) {
+      return res.status(400).json({ message: 'No hay suficiente stock para este medicamento' });
+    }
+
+    res.json({ message: 'Stock actualizado correctamente' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al actualizar el stock' });
+  }
+});
+
+
 
 export const obtenerMedicamentos = (req, resp)=>{
     resp.send('Lista de Medicamentos')
@@ -41,7 +64,7 @@ export const obtenerMedicamentos = (req, resp)=>{
 
 export const getMedicamentos=async(req, resp)=>{
 try{
-    const [result] = await conmysql.query(' select * from MEDICAMENTOS where ESTADO_MEDICAMENTO="A" ')
+    const [result] = await conmysql.query(' select * from MEDICAMENTOS where ESTADO_MEDICAMENTO="A" AND STOCK_MEDICAMENTO>0 ')
     resp.json({ cant: result.length, data: result }) 
 }catch(error){
     return resp.status(500).json({ message: "error en el servidor"})
