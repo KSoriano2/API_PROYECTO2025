@@ -36,9 +36,9 @@ export const getRecetasMedicamentosxid = async(req, res)=>{
 //funcion para insertar un cliente
 export const postRecetasMedicamentos = async(req, res)=>{
     try{
-        const {id_receta,id_medicamento,cantidad,dosis} =req.body
-        const [result] = await conmysql.query(' INSERT INTO RECETA_MEDICAMENTO (ID_RECETA,ID_MEDICAMENTO,CANTIDAD,DOSIS) VALUES(?,?,?,?)', 
-        [id_receta,id_medicamento,cantidad,dosis])
+        const {id_receta,id_medicamento,cantidad,presentacion,dosis} =req.body
+        const [result] = await conmysql.query(' INSERT INTO RECETA_MEDICAMENTO (ID_RECETA,ID_MEDICAMENTO,CANTIDAD,PRESENTACION,DOSIS) VALUES(?,?,?,?,?)', 
+        [id_receta,id_medicamento,cantidad,presentacion,dosis])
         
         res.send({
             id_receta_medicamento: result.insertId
@@ -52,11 +52,11 @@ export const postRecetasMedicamentos = async(req, res)=>{
 export const putRecetaMedicamento=async(req,res)=>{
     try{
         const {id} = req.params
-        const {id_medicamento,cantidad,dosis}=req.body
+        const {id_medicamento,cantidad,presentacion,dosis}=req.body
         
         const [result] = await conmysql.query(
-            'UPDATE RECETA_MEDICAMENTO SET ID_MEDICAMENTO=?,CANTIDAD=?,DOSIS=? WHERE ID_RECETA_MEDICAMENTO=?',
-            [id_medicamento,cantidad,dosis,id])
+            'UPDATE RECETA_MEDICAMENTO SET ID_MEDICAMENTO=?,CANTIDAD=?,PRESENTACION=?,DOSIS=? WHERE ID_RECETA_MEDICAMENTO=?',
+            [id_medicamento,cantidad,presentacion,dosis,id])
 
             if(result.affectedRows<=0) return res.status(404).json({
                 message: "Receta medicamento no encontrada"
@@ -76,11 +76,11 @@ export const putRecetaMedicamento=async(req,res)=>{
 export const patchRecetaMedicamento=async(req,res)=>{
     try{
         const {id} = req.params
-        const {id_medicamento,cantidad,dosis}=req.body
+        const {id_medicamento,cantidad,presentacion,dosis}=req.body
         
         const [result] = await conmysql.query(
-            'UPDATE RECETA_MEDICAMENTO SET ID_MEDICAMENTO=IFNULL(?, ID_MEDICAMENTO),CANTIDAD=IFNULL(?, CANTIDAD),DOSIS=IFNULL(?, DOSIS) WHERE ID_RECETA_MEDICAMENTO=?',
-            [id_medicamento,cantidad,dosis, id])
+            'UPDATE RECETA_MEDICAMENTO SET ID_MEDICAMENTO=IFNULL(?, ID_MEDICAMENTO),CANTIDAD=IFNULL(?, CANTIDAD),PRESENTACION=IFNULL(?, PRESENTACION),DOSIS=IFNULL(?, DOSIS) WHERE ID_RECETA_MEDICAMENTO=?',
+            [id_medicamento,cantidad,presentacion,dosis, id])
 
             if(result.affectedRows<=0) return res.status(404).json({
                 message: "Receta medicamento no encontrada"
